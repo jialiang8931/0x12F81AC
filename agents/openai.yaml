@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Architecture Init"
+  short_description: "先審議，再建立 Docker-first 專案治理"
+  default_prompt: "Use $project-arch-init to review my user-authored docs/init.md, propose a Sepia-written governance plan, and wait for my approval before changing files."

@@ -1,0 +1,102 @@
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Logs, runtime files, generated evidence, and temporary work
+*.log
+*.pid
+*.seed
+*.tmp
+*.temp
+tmp/
+temp/
+generated/
+output/
+coverage/
+.coverage
+htmlcov/
+
+# Secrets and real environment files
+.env
+.env.*
+**/.env
+**/.env.*
+!env/**/.env.example
+!env/**/.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets/
+
+# Terraform runtime and derived files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+!*.tfvars.example
+!*.tfvars.json.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# Node.js
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.parcel-cache/
+
+# Go
+bin/
+*.test
+*.prof
+coverage.out
+
+# Rust
+target/
+
+# Lockfiles are contracts and must remain tracked.
+!.terraform.lock.hcl
+!**/requirements.lock
+!**/package-lock.json
+!**/pnpm-lock.yaml
+!**/yarn.lock
+!**/go.sum
+!**/Cargo.lock

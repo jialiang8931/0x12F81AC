@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "public_entrypoints": [
+    {
+      "name": "build-image",
+      "path": "scripts/build-image.sh",
+      "actor": "developer-or-ci",
+      "purpose": "Build the pinned local validation image from the repository-root context."
+    },
+    {
+      "name": "validate-architecture",
+      "path": "scripts/validate-architecture.sh",
+      "actor": "developer-or-agent",
+      "purpose": "Validate an approved target project without modifying it."
+    },
+    {
+      "name": "check-input",
+      "path": "scripts/check-input.sh",
+      "actor": "test-runner",
+      "purpose": "Run the business-init and input-schema gate."
+    },
+    {
+      "name": "test-unit",
+      "path": "scripts/test-unit.sh",
+      "actor": "test-runner",
+      "purpose": "Run unit tests only after the input gate passed."
+    },
+    {
+      "name": "test-integration",
+      "path": "scripts/test-integration.sh",
+      "actor": "test-runner",
+      "purpose": "Run integration tests only after unit tests passed."
+    },
+    {
+      "name": "test-e2e",
+      "path": "scripts/test-e2e.sh",
+      "actor": "test-runner",
+      "purpose": "Run E2E tests only after integration tests passed."
+    }
+  ]
+}

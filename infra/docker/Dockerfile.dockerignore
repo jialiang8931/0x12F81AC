@@ -1,0 +1,5 @@
+**
+!scripts/
+!scripts/validate_project_arch.py
+!tests/
+!tests/**/*.py
