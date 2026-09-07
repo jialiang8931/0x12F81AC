@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.validate_project_arch import parse_front_matter, required_paths
+from scripts.validate_project_arch import DELIVERY_LIFECYCLE, parse_front_matter, required_paths
 
 
 class ValidatorUnitTests(unittest.TestCase):
@@ -16,6 +16,12 @@ class ValidatorUnitTests(unittest.TestCase):
         deployable = set(required_paths("deployable"))
         self.assertLess(service, deployable)
         self.assertIn("infra/terraform", deployable)
+
+    def test_delivery_lifecycle_keeps_release_last(self) -> None:
+        self.assertEqual("bdd", DELIVERY_LIFECYCLE[0])
+        self.assertEqual("docker", DELIVERY_LIFECYCLE[1])
+        self.assertLess(DELIVERY_LIFECYCLE.index("tdd"), DELIVERY_LIFECYCLE.index("implement"))
+        self.assertEqual("release", DELIVERY_LIFECYCLE[-1])
 
 
 if __name__ == "__main__":

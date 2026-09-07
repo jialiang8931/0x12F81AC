@@ -2,7 +2,7 @@
 
 ## Owns
 
-依 manifest 機械執行 input、unit、integration、E2E，保存原始結果並回報固定狀態。
+在 Implement 完成後依 manifest 機械執行 Test（input/schema → unit/contract）、Integration、E2E，保存原始結果並回報固定狀態。
 
 ## Must not
 

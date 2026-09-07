@@ -2,6 +2,7 @@
 
 - 功能、正確性與驗證相同時，使用最少且清楚的程式碼。
 - business transformation 預設為純函數；不改動輸入資料，不偷偷讀取環境、cwd、時鐘或檔案。
+- production implementation 只能在 BDD、Docker 與 TDD gate 完成後開始；只寫滿足 frozen cases 的最小變更。
 - 可變狀態只留在有明確生命週期的 adapter。
 - 一個檔案只承擔一個可命名責任；不用含糊的 `utils`、god object 或 god script。
 - 配置由單一入口驗證後注入。不得用客戶名稱、路徑片段或單筆案例硬編碼行為。

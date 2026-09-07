@@ -41,7 +41,7 @@ description: Assess and initialize software-project architecture and governance 
 - 建議保留、新增、刪減的規範及理由。
 - 目錄樹與每個檔案的責任。
 - Docker、scripts-only、依賴、環境檔、Git 與部署規則。
-- input → unit → integration → E2E 的升級條件。
+- BDD → Docker → TDD → Implement → Test → Integration → E2E → Release 的升級條件。
 - subagent 角色、權限、交接與何時根本不該派發。
 - 預計寫入路徑、禁止路徑、驗證命令與回復方式。
 
@@ -53,7 +53,7 @@ description: Assess and initialize software-project architecture and governance 
 
 ### 6. 依核准內容建立治理
 
-遵守 [execution-lifecycle.md](references/execution-lifecycle.md)：先建立最小必要檔案，再用 root `scripts/manifest.json` 公開允許的命令。可執行專案以 Docker 為第一道防線；部署型專案必須以 Docker 建置與執行 Terraform。
+遵守 [execution-lifecycle.md](references/execution-lifecycle.md)：先建立最小必要檔案，再用 root `scripts/manifest.json` 公開允許的命令。可執行專案以 Docker 為第一道防線；部署型專案必須以 Docker 建置與執行 Terraform。任何實作都要沿著已核准的 BDD → Docker → TDD → Implement → Test → Integration → E2E → Release 前進。
 
 根目錄直接檔案只允許：
 
@@ -66,19 +66,21 @@ SKILL.md
 
 `agents/openai.yaml` 是巢狀 metadata，不是根目錄直接檔案。Docker 宣告放在 `infra/docker/`，Terraform 放在 `infra/terraform/`，環境範例放在 `env/<service>/`。
 
-### 7. 依序驗證
+### 7. 依序推進
 
-驗證順序不可顛倒：
+完整生命週期不可顛倒：
 
 ```text
-input format / schema → unit → integration → end-to-end
+BDD → Docker → TDD → Implement → Test → Integration → E2E → Release
 ```
 
-前一層不是 `PASSED`，下一層就是 `NOT_EXECUTED`。不得以 E2E 反推輸入、單元或整合契約。進度以 branch、task、suite 狀態、diff、測試結果與 release tag 表達；嚴禁自訂 SHA、commit SHA、檔案 checksum、image digest 或 hash 比對作為治理、綁定或升級 gate。套件管理器在 lockfile 中自動維護的完整性欄位可以保留，但不得手工計算或作為專案進度身分。
+BDD 由使用者的 `docs/init.md` 與行為情境定義；Docker 先建立隔離且可重現的執行環境；TDD 在 implementation 前固定 cases、oracle、input/schema 與預期失敗；Implement 只寫讓已核准 cases 通過的最小程式；Test 先跑 input/schema，再跑 unit/contract；之後才是 Integration、E2E 與 Release。
+
+前一層沒有滿足 gate，下一層就是 `NOT_EXECUTED`。不得先寫 implementation 再補 TDD，也不得以 E2E 反推輸入、單元或整合契約。進度以 branch、task、stage/suite 狀態、diff、測試結果與 release tag 表達；嚴禁自訂 SHA、commit SHA、檔案 checksum、image digest 或 hash 比對作為治理、綁定或升級 gate。套件管理器在 lockfile 中自動維護的完整性欄位可以保留，但不得手工計算或作為專案進度身分。
 
 ## 核心規則
 
-- Docker：見 [docker-lifecycle.md](references/execution-lifecycle.md)。專案程式、測試、生成器與 Terraform 都在固定版本的容器中執行。
+- Lifecycle：見 [execution-lifecycle.md](references/execution-lifecycle.md)。BDD 核准後先立 Docker 邊界，再進 TDD 與 implementation。
 - Scripts-only：所有人與 subagent 只能呼叫 `scripts/manifest.json` 允許的 root scripts；script 只驗證參數、編排容器、管理精確 mount、傳遞 exit code 與保存證據。
 - 程式設計：功能與正確性相同時，優先純函數、不可變資料、明確輸入輸出與最少可讀程式碼。side effect 留在 adapter 或 imperative shell。
 - 依賴：標準函式庫優先；非必要不安裝。必要依賴由各 service 的 manifest 與 lockfile 管理，只在 Docker 內安裝。見 [dependency-governance.md](references/dependency-governance.md)。
@@ -88,4 +90,4 @@ input format / schema → unit → integration → end-to-end
 
 ## 完成條件
 
-只有下列條件同時成立，才能說初始化完成：核准的檔案已建立；未碰禁止路徑；公開入口與 manifest 一致；依賴與機密規則可驗證；測試依序通過；未用 SHA 類比對替代語意驗證；文件以臺灣繁體中文寫成並經 Sepia 處理；使用者取得實際 diff 與仍待決事項。
+只有下列條件同時成立，才能說初始化完成：核准的檔案已建立；未碰禁止路徑；公開入口與 manifest 一致；依賴與機密規則可驗證；八個生命週期階段的 gate 已明定；適用測試依序通過；未用 SHA 類比對替代語意驗證；文件以臺灣繁體中文寫成並經 Sepia 處理；使用者取得實際 diff 與仍待決事項。

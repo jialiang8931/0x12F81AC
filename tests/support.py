@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
-from scripts.validate_project_arch import required_paths
+from scripts.validate_project_arch import DELIVERY_LIFECYCLE, required_paths
 
 
 INIT_TEXT = """---
@@ -44,5 +45,12 @@ def build_project(root: Path, profile: str, init_text: str = INIT_TEXT) -> None:
         path.write_text(init_text if relative == "docs/init.md" else "# Contract\n", encoding="utf-8")
     if profile in {"service", "deployable"}:
         (root / "scripts/manifest.json").write_text(
-            '{"public_entrypoints": []}\n', encoding="utf-8"
+            json.dumps(
+                {
+                    "delivery_lifecycle": list(DELIVERY_LIFECYCLE),
+                    "public_entrypoints": [],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
         )

@@ -2,7 +2,7 @@
 
 ## Owns
 
-只在核准 contract 與 task 內修改 production、scripts、infra 或文件。
+只在 BDD、Docker、TDD gate 完成後，於核准 contract 與 task 內修改 production、scripts、infra 或文件。
 
 ## Must not
 

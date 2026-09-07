@@ -8,6 +8,16 @@ from pathlib import Path
 
 
 ROOT_FILES = frozenset({".gitignore", "AGENTS.md", "README.md", "SKILL.md"})
+DELIVERY_LIFECYCLE = (
+    "bdd",
+    "docker",
+    "tdd",
+    "implement",
+    "test",
+    "integration",
+    "e2e",
+    "release",
+)
 COMMON_PATHS = (
     "docs/init.md",
     "AGENTS.md",
@@ -15,6 +25,7 @@ COMMON_PATHS = (
     "contracts/architecture.md",
     "contracts/business-init.md",
     "contracts/code-standards.md",
+    "contracts/development-lifecycle.md",
     "contracts/git-workflow.md",
     "contracts/testing.md",
     "contracts/writing-style.md",
@@ -111,6 +122,8 @@ def validate_manifest(root: Path) -> tuple[str, ...]:
     errors = [f"manifest entry does not exist: {item}" for item in paths if not (root / item).is_file()]
     if len(paths) != len(set(paths)):
         errors.append("scripts/manifest.json contains duplicate paths")
+    if tuple(data.get("delivery_lifecycle", ())) != DELIVERY_LIFECYCLE:
+        errors.append("scripts/manifest.json has an invalid delivery lifecycle")
     return tuple(errors)
 
 

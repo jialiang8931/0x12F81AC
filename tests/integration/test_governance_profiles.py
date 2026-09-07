@@ -21,6 +21,17 @@ class GovernanceProfileTests(unittest.TestCase):
             self.assertTrue(any("infra/docker/Dockerfile" in error for error in errors))
             self.assertTrue(any("scripts/manifest.json" in error for error in errors))
 
+    def test_service_manifest_requires_full_delivery_lifecycle(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root, "service")
+            (root / "scripts/manifest.json").write_text(
+                '{"delivery_lifecycle": ["test", "e2e"], "public_entrypoints": []}\n',
+                encoding="utf-8",
+            )
+            errors = validate_project(root, "service").errors
+            self.assertTrue(any("delivery lifecycle" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
