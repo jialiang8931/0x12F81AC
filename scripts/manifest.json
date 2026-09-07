@@ -1,5 +1,15 @@
 {
   "schema_version": 1,
+  "delivery_lifecycle": [
+    "bdd",
+    "docker",
+    "tdd",
+    "implement",
+    "test",
+    "integration",
+    "e2e",
+    "release"
+  ],
   "public_entrypoints": [
     {
       "name": "build-image",

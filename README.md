@@ -7,9 +7,10 @@
 核心立場很簡單：
 
 - Sepia 是強制相依，也是預設回答與文件風格。
-- Docker 從開發守到部署；部署以 Docker 配合 Terraform。
+- 生命週期固定為 `BDD → Docker → TDD → Implement → Test → Integration → E2E → Release`。
+- Docker 從 TDD 之前守到部署；部署以 Docker 配合 Terraform。
 - 公開操作一律走 root scripts，subagent 不得自行拼命令或消耗資源。
-- 測試只能依 `input → unit → integration → E2E` 前進。
+- Test 階段內先驗 input/schema，再跑 unit/contract；通過後才能進 Integration 與 E2E。
 - 不用 SHA、checksum 或 image digest 追治理進度；看 task、branch、diff、suite 狀態與 release tag。
 - 業務先由人寫清楚，TDD 才有可靠的起點。
 

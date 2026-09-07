@@ -6,10 +6,10 @@
 
 ## service
 
-有可執行 service。加上 Docker lifecycle、scripts-only、service-local dependency、input gate、unit、integration 與 E2E。
+有可執行 service。採 BDD → Docker → TDD → Implement → Test → Integration → E2E；尚未部署時，Release 可標成 `NOT_APPLICABLE`，但理由要在 BDD 或 TDD 階段寫明。另加 scripts-only、service-local dependency 與 input contract。
 
 ## deployable
 
-service 會部署到環境。再加 `infra/terraform/`、環境範例、release 規則、plan/apply 分離與部署後驗證。部署從 `dev` 的核准狀態開始。
+service 會部署到環境。完整走到 Release，再加 `infra/terraform/`、環境範例、release 規則、plan/apply 分離與部署後驗證。部署從 `dev` 的核准狀態開始。
 
 選最小足夠輪廓。輪廓可以日後升級，不為可能的未來先建立空結構。

@@ -2,7 +2,7 @@
 
 ## Owns
 
-在 implementation 前固定 input、unit、integration、E2E 的 cases、oracle、fixture schema 與 acceptance。
+在 Docker gate 之後、implementation 之前完成 TDD，固定 input、unit/contract、integration、E2E 的 cases、oracle、fixture schema 與 acceptance。
 
 ## Must not
 

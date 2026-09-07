@@ -7,7 +7,7 @@
 3. **建議治理輪廓**：選擇與理由。
 4. **規則差異**：保留、新增、刪減，各自說明代價。
 5. **目錄與 owner**：只列真正需要的檔案。
-6. **執行與測試**：Docker、scripts-only、input → unit → integration → E2E。
+6. **執行與測試**：BDD → Docker → TDD → Implement → Test → Integration → E2E → Release；Test 內部先 input/schema，再 unit/contract。
 7. **Git 與部署**：branch、commit、release、Terraform gate。
 8. **Agent 邊界**：角色、providers、writable paths、禁止事項、handoff。
 9. **預計變更**：精確 writable paths 與 forbidden paths。

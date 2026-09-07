@@ -18,7 +18,8 @@
 - 修改前先列 owner、objective、writable paths、forbidden paths、verification 與 rollback。
 - 根目錄直接檔案只允許 `.gitignore`、`AGENTS.md`、`README.md`、`SKILL.md`。
 - 公開程式入口只存在於 `scripts/manifest.json`。不得直接叫用內部 Python 模組代替公開 script。
-- 執行驗證的順序固定為 input、unit、integration、E2E。前一層失敗或未執行，下一層不得執行。
+- 開發生命週期固定為 BDD、Docker、TDD、Implement、Test、Integration、E2E、Release。前一階段未滿足 gate，下一階段不得開始。
+- Test 階段內固定先跑 input/schema，再跑 unit/contract；之後才可進 Integration 與 E2E。
 - 不用 SHA、commit identity、checksum 或 image digest 作為進度、證據或升級 gate。
 - 標準函式庫優先。新增依賴前必須說明不可替代性、owner、固定版本、lockfile 與供應鏈風險。
 - 功能與正確性相同時，優先純函數、不可變資料、明確輸入輸出與最少可讀程式碼。

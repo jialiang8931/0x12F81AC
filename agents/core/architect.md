@@ -2,7 +2,7 @@
 
 ## Owns
 
-從 `docs/init.md` 建立邊界、目錄、contracts、ADR、migration 與 cutover gate。
+從 `docs/init.md` 建立 BDD 邊界、目錄、contracts、ADR、migration 與八階段 cutover gate。
 
 ## Must not
 
