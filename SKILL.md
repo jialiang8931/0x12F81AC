@@ -41,6 +41,7 @@ description: Assess and initialize software-project architecture and governance 
 - 建議保留、新增、刪減的規範及理由。
 - 目錄樹與每個檔案的責任。
 - Docker、scripts-only、依賴、環境檔、Git 與部署規則。
+- 對外交付包、公開 `README.md` 與內部治理資料的邊界。
 - BDD → Docker → TDD → Implement → Test → Integration → E2E → Release 的升級條件。
 - subagent 角色、權限、交接與何時根本不該派發。
 - 預計寫入路徑、禁止路徑、驗證命令與回復方式。
@@ -66,6 +67,8 @@ SKILL.md
 
 `agents/openai.yaml` 是巢狀 metadata，不是根目錄直接檔案。Docker 宣告放在 `infra/docker/`，Terraform 放在 `infra/terraform/`，環境範例放在 `env/<service>/`。
 
+專案與服務定案後，若使用者核准建立原始碼交付流程，依 [deliverable-code.md](contracts/deliverable-code.md) 建立無參數入口 `scripts/build_deliverable_code.sh`。它在 Docker 內產生 `output/<project>_<current-commit-short-7>.zip`，保留可執行、可測試、可部署的產品內容，排除 Agent 協作控制面、業務起始文件與開發歷程。不得在專案尚未定案時預建這支 script。
+
 ### 7. 依序推進
 
 完整生命週期不可顛倒：
@@ -76,7 +79,7 @@ BDD → Docker → TDD → Implement → Test → Integration → E2E → Releas
 
 BDD 由使用者的 `docs/init.md` 與行為情境定義；Docker 先建立隔離且可重現的執行環境；TDD 在 implementation 前固定 cases、oracle、input/schema 與預期失敗；Implement 只寫讓已核准 cases 通過的最小程式；Test 先跑 input/schema，再跑 unit/contract；之後才是 Integration、E2E 與 Release。
 
-前一層沒有滿足 gate，下一層就是 `NOT_EXECUTED`。不得先寫 implementation 再補 TDD，也不得以 E2E 反推輸入、單元或整合契約。進度以 branch、task、stage/suite 狀態、diff、測試結果與 release tag 表達；嚴禁自訂 SHA、commit SHA、檔案 checksum、image digest 或 hash 比對作為治理、綁定或升級 gate。套件管理器在 lockfile 中自動維護的完整性欄位可以保留，但不得手工計算或作為專案進度身分。
+前一層沒有滿足 gate，下一層就是 `NOT_EXECUTED`。不得先寫 implementation 再補 TDD，也不得以 E2E 反推輸入、單元或整合契約。進度以 branch、task、stage/suite 狀態、diff、測試結果與 release tag 表達；嚴禁自訂 SHA、commit SHA、檔案 checksum、image digest 或 hash 比對作為治理、綁定或升級 gate。唯一例外是已核准的 `build_deliverable_code.sh` 可讀取目前 commit 的前七碼，且只能用於 ZIP 檔名，不能參與比較、驗證、promotion、provenance 或進度判定。套件管理器在 lockfile 中自動維護的完整性欄位可以保留，但不得手工計算或作為專案進度身分。
 
 ## 核心規則
 
@@ -87,7 +90,8 @@ BDD 由使用者的 `docs/init.md` 與行為情境定義；Docker 先建立隔�
 - Git：`main` 建立 `dev`；任何工作從 `dev` 切分支，完成驗證後合併回 `dev`。見 [git-governance.md](references/git-governance.md)。
 - 部署：只從乾淨、已通過 gate 的 `dev` 狀態部署。Docker image 與 Terraform plan 使用 release 名稱，不使用 SHA。見 [deployment-governance.md](references/deployment-governance.md)。
 - Agents：`agents/` 保存角色藍圖，不授權自動派發。使用者或上層規則未允許 subagent 時，不得因藍圖存在就派發。見 [role-design.md](references/role-design.md)。
+- 交付：原始碼交付必須保留產品的開發、測試、Docker 與部署能力，只移除 Agent 協作控制面、`docs/init.md` 與開發歷程。對外 `README.md` 只說明業務邏輯與公開腳本用法。見 [deliverable-code.md](contracts/deliverable-code.md)。
 
 ## 完成條件
 
-只有下列條件同時成立，才能說初始化完成：核准的檔案已建立；未碰禁止路徑；公開入口與 manifest 一致；依賴與機密規則可驗證；八個生命週期階段的 gate 已明定；適用測試依序通過；未用 SHA 類比對替代語意驗證；文件以臺灣繁體中文寫成並經 Sepia 處理；使用者取得實際 diff 與仍待決事項。
+只有下列條件同時成立，才能說初始化完成：核准的檔案已建立；未碰禁止路徑；公開入口與 manifest 一致；依賴與機密規則可驗證；八個生命週期階段的 gate 已明定；適用測試依序通過；未用 SHA 類比對替代語意驗證；適用的交付包與公開 README 邊界已寫入治理；文件以臺灣繁體中文寫成並經 Sepia 處理；使用者取得實際 diff 與仍待決事項。
